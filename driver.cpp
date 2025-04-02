@@ -1,29 +1,48 @@
-#include "dedge.h"
+#include "directed_edge.h"
 #include <fstream>
 #include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
 
-std::unique_ptr<std::vector<dedge>> parse(std::ifstream& in)
-{	std::unique_ptr<std::vector<dedge>> dgraph = std::make_unique<std::vector<dedge>>();
+void dijkstra(std::unique_ptr<std::vector<directed_edge>> directed_graph, unsigned int s, unsigned int t)
+{	auto max = [](unsigned int uint_a, unsigned int uint_b)
+	{	return uint_a > uint_b ? uint_a : uint_b;
+	};
+	unsigned int n = 0;
+	for(unsigned int i = 0; i < directed_graph.get()->size(); ++i)
+	{	unsigned int m = max(directed_graph.get()->at(i).s, directed_graph.get()->at(i).t);
+		if(m > n)
+		{	n = m;
+		}
+	}
+	unsigned int p = s;
+	std::vector<unsigned int> P(n, 0); // std::vector for runtime instantiation
+	P.at(s - 1) = 1;
+	std::vector<unsigned int> D(n, 0xFFFFFFFF); // std::vector for runtime instantiation
+	D.at(s - 1) = 0;
+	std::vector<unsigned int> A(n, 0xFFFFFFFF); // std::vector for runtime instantiation
+	A.at(s - 1) = 0;
+}
+std::unique_ptr<std::vector<directed_edge>> parse(std::ifstream& in)
+{	std::unique_ptr<std::vector<directed_edge>> directed_graph = std::make_unique<std::vector<directed_edge>>();
 	std::string line;
 	try
 	{	while(std::getline(in, line))
-		{	dedge dedge;
-			dedge.a = std::stoul(line.substr(0, line.find_first_of(',')));
+		{	directed_edge new_edge;
+			new_edge.s = std::stoul(line.substr(0, line.find_first_of(',')));
 			line.erase(0, line.find_first_of(',') + 1);
-			dedge.b = std::stoul(line.substr(0, line.find_first_of(',')));
+			new_edge.t = std::stoul(line.substr(0, line.find_first_of(',')));
 			line.erase(0, line.find_first_of(',') + 1);
-			dedge.d = std::stoul(line);
-			dgraph.get()->push_back(dedge);
+			new_edge.d = std::stoul(line);
+			directed_graph.get()->push_back(new_edge);
 		}
 	}
 	catch(const std::exception& e)
 	{	std::cerr << e.what() << '\n';
 		throw;
 	}
-	return dgraph;
+	return directed_graph;
 }
 int main(int argc, char* argv[])
 {	if(argc != 2)
@@ -33,9 +52,9 @@ int main(int argc, char* argv[])
 	if(!in.is_open())
 	{	return EXIT_FAILURE;
 	}
-	std::unique_ptr<std::vector<dedge>> dgraph = std::make_unique<std::vector<dedge>>();
+	std::unique_ptr<std::vector<directed_edge>> directed_graph = std::make_unique<std::vector<directed_edge>>();
 	try
-	{	dgraph = parse(in);
+	{	directed_graph = parse(in);
 	}
 	catch(const std::exception& e)
 	{	std::cerr << e.what() << '\n';
