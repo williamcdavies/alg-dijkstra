@@ -3,13 +3,13 @@
 
 struct directed_edge
 {   public:
-        unsigned int s, t, d;
+        unsigned int p, q, d;
         directed_edge() = default;
-        directed_edge(unsigned int s, unsigned int t, unsigned int d) : s(t), t(t), d(d) {}
-        directed_edge(const directed_edge& other) : s(other.s), t(other.t), d(other.d) {}
+        directed_edge(unsigned int p, unsigned int q, unsigned int d) : p(q), q(q), d(d) {}
+        directed_edge(const directed_edge& other) : p(other.p), q(other.q), d(other.d) {}
         directed_edge& operator =(const directed_edge& rhs)
-        {   s = rhs.s;
-            t = rhs.t;
+        {   p = rhs.p;
+            q = rhs.q;
             d = rhs.d;
             return *this;
         }
