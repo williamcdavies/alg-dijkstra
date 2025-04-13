@@ -21,7 +21,7 @@ void dijkstra(std::unique_ptr<std::vector<directed_edge>> directed_graph, unsign
 	{	return uint_a > uint_b ? uint_a : uint_b;
 	};
 	unsigned int n = 0;
-	for (const directed_edge& edge : *directed_graph)
+	for(const directed_edge& edge : *directed_graph)
 	{	n = max(n, max(edge.p, edge.q));
 	}
 	n += 1;
@@ -33,8 +33,8 @@ void dijkstra(std::unique_ptr<std::vector<directed_edge>> directed_graph, unsign
 	std::vector<unsigned int> A(n, UINT_MAX); // std::vector for runtime instantiation
 	A.at(s) = 0;
 	while(P.at(t) == 0)
-	{	for (const directed_edge& edge : *directed_graph)
-		{	if (edge.p == p &&
+	{	for(const directed_edge& edge : *directed_graph)
+		{	if(edge.p == p &&
 				P.at(edge.q) == 0 &&
 				D.at(edge.q) > D.at(edge.p) + edge.d)
 			{	D.at(edge.q) = D.at(edge.p) + edge.d;
