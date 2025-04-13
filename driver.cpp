@@ -8,17 +8,17 @@
 #include <string>
 #include <vector>
 
-void print(const std::vector<unsigned int>& v)
-{	for(unsigned int i = 0; i < v.size(); ++i)
-	{	std::cout << v.at(i);
-		if(i < v.size() - 1)
-		{	std::cout << ' ';
-		}
-	}
-}
 void dijkstra(std::unique_ptr<std::vector<directed_edge>> directed_graph, unsigned int s, unsigned int t) // output is defined if and only if nodes are indexed consecutively from '0' to 'n - 1', where 'n' is the number of nodes
 {	auto max = [](unsigned int uint_a, unsigned int uint_b)
 	{	return uint_a > uint_b ? uint_a : uint_b;
+	};
+	auto print = [](const std::vector<unsigned int>& vector)
+	{	for(unsigned int i = 0; i < vector.size(); ++i)
+		{	std::cout << vector.at(i);
+			if(i < vector.size() - 1)
+			{	std::cout << ' ';
+			}
+		}
 	};
 	unsigned int n = 0;
 	for(const directed_edge& edge : *directed_graph)
